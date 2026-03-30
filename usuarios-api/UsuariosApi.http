@@ -1,0 +1,67 @@
+@UsuariosApi_HostAddress = http://localhost:5064
+
+POST {{UsuariosApi_HostAddress}}/api/usuarios
+Content-Type: application/json
+
+{
+  "nome": "Pedro Henrique",
+  "email": "pedro.vargas@sga.pucminas.br",
+  "senha": "Pedro@123",
+  "codigoPessoa": "1525997",
+  "lembreteSenha": "nome da universidade",
+  "idade": 21,
+  "sexo": "Masculino"
+}
+
+###
+
+POST {{UsuariosApi_HostAddress}}/api/usuarios
+Content-Type: application/json
+
+{
+  "nome": "Ana Clara Souza",
+  "email": "ana.clara@email.com",
+  "senha": "Ana@123",
+  "codigoPessoa": "2026002",
+  "lembreteSenha": "nome do primeiro pet",
+  "idade": 22,
+  "sexo": "Feminino"
+}
+
+###
+
+GET {{UsuariosApi_HostAddress}}/api/usuarios
+Accept: application/json
+
+###
+
+GET {{UsuariosApi_HostAddress}}/api/usuarios/email/pedro.vargas@sga.pucminas.br
+Accept: application/json
+
+###
+
+PUT {{UsuariosApi_HostAddress}}/api/usuarios/email/pedro.vargas@sga.pucminas.br
+Content-Type: application/json
+
+{
+  "nome": "Pedro Henrique Vargas",
+  "senha": "Pedro@1234",
+  "codigoPessoa": "1525997",
+  "lembreteSenha": "campus",
+  "idade": 22,
+  "sexo": "Masculino"
+}
+
+###
+
+PATCH {{UsuariosApi_HostAddress}}/api/usuarios/email/ana.clara@email.com
+Content-Type: application/json
+
+{
+  "idade": 23,
+  "lembreteSenha": "cidade natal"
+}
+
+###
+
+DELETE {{UsuariosApi_HostAddress}}/api/usuarios/email/ana.clara@email.com
