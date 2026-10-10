@@ -9,7 +9,9 @@ O objetivo é disponibilizar uma solução simples e organizada para criação, 
 
 ## 🚧 Status do Projeto
 
-![Status](https://img.shields.io/badge/status-em%20desenvolvimento-007ec6?style=for-the-badge)
+Projeto acadêmico **concluído no escopo de CRUD de usuários com MongoDB**. O código fica disponível como exercício de organização de API e persistência. As limitações do exemplo estão descritas em [Estado e limites](#estado-e-limites).
+
+![Status](https://img.shields.io/badge/status-conclu%C3%ADdo-success?style=for-the-badge)
 ![Backend](https://img.shields.io/badge/backend-ASP.NET%20Core-007ec6?style=for-the-badge)
 ![Database](https://img.shields.io/badge/database-MongoDB-007ec6?style=for-the-badge)
 ![License](https://img.shields.io/badge/license-MIT-007ec6?style=for-the-badge)
