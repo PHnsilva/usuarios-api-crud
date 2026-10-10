@@ -8,14 +8,16 @@ O objetivo é disponibilizar uma solução simples e organizada para criação, 
 ---
 
 ## 🚧 Status do Projeto
+
 ![Status](https://img.shields.io/badge/status-em%20desenvolvimento-007ec6?style=for-the-badge)
 ![Backend](https://img.shields.io/badge/backend-ASP.NET%20Core-007ec6?style=for-the-badge)
 ![Database](https://img.shields.io/badge/database-MongoDB-007ec6?style=for-the-badge)
-![License](https://img.shields.io/badge/license-Uso%20Acad%C3%AAmico-007ec6?style=for-the-badge)
+![License](https://img.shields.io/badge/license-MIT-007ec6?style=for-the-badge)
 
 ---
 
 ## 📚 Índice
+
 - [Sobre o Projeto](#-sobre-o-projeto)
 - [Funcionalidades](#-funcionalidades)
 - [Tecnologias](#-tecnologias)
@@ -29,6 +31,7 @@ O objetivo é disponibilizar uma solução simples e organizada para criação, 
 - [Documentação](#-documentação)
 - [Troubleshooting](#-troubleshooting)
 - [Autores](#-autores)
+- [Licença](#licença)
 
 ---
 
@@ -39,6 +42,7 @@ A solução permite registrar e consultar informações como nome, e-mail, senha
 lembrete de senha, idade e sexo, centralizando o CRUD em uma aplicação backend simples.
 
 O repositório reúne:
+
 - API em ASP.NET Core;
 - regras de negócio organizadas em camadas;
 - integração com MongoDB;
@@ -46,9 +50,16 @@ O repositório reúne:
 
 ---
 
+## Estado e limites
+
+`Program.cs` registra `MongoUsuarioRepository` como persistência ativa e cria índices únicos de e-mail e código de pessoa ao iniciar. O repositório InMemory existente não está selecionado. O MongoDB precisa estar acessível antes de a API iniciar.
+
+Não há autenticação, autorização ou projeto de testes automatizados nesta base. Senhas são armazenadas e retornadas como campos da entidade, sem hash. Use dados fictícios neste exercício acadêmico; ele não implementa um serviço de identidade pronto para produção.
+
 ## ✨ Funcionalidades
 
 ### Funcionalidades principais
+
 - Cadastro de usuários
 - Listagem de todos os usuários
 - Busca de usuário por e-mail
@@ -61,26 +72,31 @@ O repositório reúne:
 ## 🛠 Tecnologias
 
 ### Backend
+
 - **ASP.NET Core Web API**
 - **C#**
 - **Swagger / OpenAPI**
 - **MongoDB.Driver**
 
 ### Banco de Dados
+
 - **MongoDB**
 
 ### Documentação
+
 - **Markdown**
 - **Swagger UI**
 
 ---
 
-## 🏗️ Arquitetura
+## 🏗 Arquitetura
 
 ### Visão Geral
+
 O projeto adota uma arquitetura em camadas, com separação entre entrada HTTP, regras de negócio e persistência.
 
 ### Organização por Camadas
+
 - **Controllers** para exposição dos endpoints da API;
 - **Services** para orquestração das regras de negócio;
 - **Repositories** para acesso ao MongoDB;
@@ -89,9 +105,11 @@ O projeto adota uma arquitetura em camadas, com separação entre entrada HTTP, 
 - **Settings** para configuração da conexão com banco.
 
 ### Fluxo Geral da Aplicação
+
 `Cliente -> Controller -> Service -> Repository -> MongoDB`
 
 ### Padrões e Convenções Adotados
+
 - separação clara de responsabilidades;
 - controllers enxutos;
 - lógica concentrada em services;
@@ -105,48 +123,55 @@ O projeto adota uma arquitetura em camadas, com separação entre entrada HTTP, 
 
 Neste projeto, a configuração principal está em `appsettings.json`.
 
-| Variável | Obrigatória | Contexto | Descrição | Exemplo |
-|---|---|---|---|---|
-| `ConnectionString` | Sim | Backend | String de conexão com o MongoDB | `mongodb://localhost:27017` |
-| `DatabaseName` | Sim | Backend | Nome do banco MongoDB | `cadastrodb` |
-| `CollectionName` | Sim | Backend | Nome da coleção de usuários | `usuarios` |
+| Variável                            | Obrigatória | Contexto | Descrição                       | Exemplo                     |
+| ----------------------------------- | ----------- | -------- | ------------------------------- | --------------------------- |
+| `MongoDbSettings__ConnectionString` | Sim         | Backend  | String de conexão com o MongoDB | `mongodb://localhost:27017` |
+| `MongoDbSettings__DatabaseName`     | Sim         | Backend  | Nome do banco MongoDB           | `cadastrodb`                |
+| `MongoDbSettings__CollectionName`   | Sim         | Backend  | Nome da coleção de usuários     | `usuarios`                  |
+
+As variáveis acima sobrescrevem os campos correspondentes de `usuarios-api/appsettings.json`. Não há carregamento de `.env`.
 
 ### Exemplo de configuração
+
 ```json
-"MongoDbSettings": {
-  "ConnectionString": "mongodb://localhost:27017",
-  "DatabaseName": "cadastrodb",
-  "CollectionName": "usuarios"
+{
+  "MongoDbSettings": {
+    "ConnectionString": "mongodb://localhost:27017",
+    "DatabaseName": "cadastrodb",
+    "CollectionName": "usuarios"
+  }
 }
 ```
 
 ---
 
-## ▶️ Como Rodar Localmente
+## ▶ Como Rodar Localmente
 
 ### Pré-requisitos
+
 - **.NET 8 SDK**
 - **MongoDB Server**
 - **mongosh** ou MongoDB Compass
 - **Git**
 
 ### Passos
+
 ```bash
-git clone <URL_DO_SEU_REPOSITORIO>
-cd usuarios-api
+git clone https://github.com/PHnsilva/usuarios-api-crud.git
+cd usuarios-api-crud/usuarios-api
 dotnet restore
 dotnet build
 dotnet run
 ```
 
 ### MongoDB
-Certifique-se de que o MongoDB esteja em execução localmente na porta padrão:
 
-```bash
-mongodb://localhost:27017
-```
+Certifique-se de que o MongoDB esteja em execução e que a string `mongodb://localhost:27017` corresponda à sua instância. Essa string é uma configuração, não um comando de terminal. O banco padrão é `cadastrodb` e a coleção é `usuarios`.
+
+O perfil `UsuariosApi` de `Properties/launchSettings.json` define o ambiente Development e as portas abaixo. `Program.cs` habilita Swagger somente nesse ambiente.
 
 ### Swagger
+
 Após iniciar a aplicação, acesse:
 
 ```bash
@@ -177,16 +202,17 @@ dotnet run
 
 ## 🔌 Endpoints Principais
 
-| Método | Endpoint | Descrição |
-|---|---|---|
-| `POST` | `/api/usuarios` | Cadastra um novo usuário |
-| `GET` | `/api/usuarios` | Lista todos os usuários |
-| `GET` | `/api/usuarios/email/{email}` | Busca um usuário pelo e-mail |
-| `PUT` | `/api/usuarios/email/{email}` | Atualiza todos os dados do usuário |
-| `PATCH` | `/api/usuarios/email/{email}` | Atualiza parcialmente os dados do usuário |
-| `DELETE` | `/api/usuarios/email/{email}` | Remove um usuário pelo e-mail |
+| Método   | Endpoint                      | Descrição                                 |
+| -------- | ----------------------------- | ----------------------------------------- |
+| `POST`   | `/api/usuarios`               | Cadastra um novo usuário                  |
+| `GET`    | `/api/usuarios`               | Lista todos os usuários                   |
+| `GET`    | `/api/usuarios/email/{email}` | Busca um usuário pelo e-mail              |
+| `PUT`    | `/api/usuarios/email/{email}` | Atualiza todos os dados do usuário        |
+| `PATCH`  | `/api/usuarios/email/{email}` | Atualiza parcialmente os dados do usuário |
+| `DELETE` | `/api/usuarios/email/{email}` | Remove um usuário pelo e-mail             |
 
 ### Documentação da API
+
 - **Swagger / OpenAPI:** `http://localhost:5064/swagger` ou `https://localhost:7064/swagger`
 
 ---
@@ -194,18 +220,21 @@ dotnet run
 ## 🔄 Fluxos Principais
 
 ### 1. Cadastro de usuário
+
 1. Cliente envia os dados para a rota `POST /api/usuarios`
 2. O controller recebe a requisição
 3. O service valida as regras de negócio
 4. O repository persiste o documento no MongoDB
 
 ### 2. Consulta de usuário
+
 1. Cliente chama a rota `GET /api/usuarios` ou `GET /api/usuarios/email/{email}`
 2. O controller encaminha a solicitação
 3. O service consulta o repository
 4. O MongoDB retorna os dados cadastrados
 
 ### 3. Atualização e exclusão
+
 1. Cliente envia `PUT`, `PATCH` ou `DELETE`
 2. O controller identifica o usuário pela chave e-mail
 3. O service valida a operação
@@ -239,18 +268,23 @@ dotnet run
 ## 📖 Documentação
 
 ### Testes da API
+
+Não há suíte automatizada versionada. A compilação é verificada com `dotnet build`; o comportamento depende de teste manual com MongoDB acessível. Confira criação (201), duplicata (409), busca inexistente (404), atualização completa e exclusão (204).
+
 - Swagger UI para execução interativa dos endpoints
 - Postman ou Swagger para evidências do CRUD no relatório final
 
 ### Banco de Dados
+
 - MongoDB local para persistência dos documentos
 - Coleção principal: `usuarios`
 
 ---
 
-## 🛠️ Troubleshooting
+## 🛠 Troubleshooting
 
 ### Erro de certificado HTTPS no Swagger
+
 Se o Swagger abrir, mas as requisições falharem com problema de HTTPS, rode:
 
 ```bash
@@ -258,19 +292,18 @@ dotnet dev-certs https --trust
 ```
 
 ### Erro de chave duplicada no MongoDB
+
 Se ocorrer erro `DuplicateKey`, verifique se já existe documento com o mesmo:
+
 - `email`
 - `codigoPessoa`
 
-Para limpar a coleção em ambiente de teste:
-
-```javascript
-use cadastrodb
-db.usuarios.drop()
-```
+Os índices são criados durante a inicialização. Se já existirem dados duplicados, revise os registros no banco de desenvolvimento antes de iniciar; apagar a coleção não é uma etapa normal de execução.
 
 ### API não conecta no MongoDB
+
 Verifique:
+
 - se o serviço do MongoDB está rodando;
 - se a `ConnectionString` está correta;
 - se o banco e a coleção estão configurados no `appsettings.json`.
@@ -281,6 +314,14 @@ Verifique:
 
 Projeto desenvolvido por:
 
-- **Pedro Henrique**  
-  - GitHub: [PHnsilva](https://github.com/PHnsilva)  
+- **Pedro Henrique**
+  - GitHub: [PHnsilva](https://github.com/PHnsilva)
   - LinkedIn: [linkedin.com/in/PHnsilva1](https://linkedin.com/in/PHnsilva1)
+
+## Contribuição
+
+Abra uma branch e um pull request com escopo, alterações no contrato e validação. Não publique dados reais de usuários ou credenciais MongoDB.
+
+## Licença
+
+[MIT](LICENSE), conforme o arquivo existente no repositório.
